@@ -28,3 +28,9 @@ Includes a helper function Convert-ToAsciiSafe, which removes diacritics and non
 
 ## Known Bugs / Issues
  - OpenPipe doesn't have a try...catch statement behaviour
+
+## Example
+ - The example files include a sample Named Pipe Echo-server that pairs with the Client program.
+ - Put the library in the same folder as the Client and Server scripts.
+ - Execute the Server in a different Powershell window than the client.
+ - The Client can open the named pipe, and the server will send back any data sent to it.
