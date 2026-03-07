@@ -7,27 +7,33 @@ At the moment, this is for a "Pull" type pipe, where the client asks the server 
 Includes a helper function Convert-ToAsciiSafe, which removes diacritics and non-printable ASCII.
 
 ## Pipe Communications Variables
- - $Global:pipeName (default: 'PipeName') : This will be set to the name of the Pipe named in the Named Pipe Server
+ - $Global:NamedPipe_Server_Name (default: 'PipeName') : This will be set to the name of the Pipe named in the Named Pipe Server
+ - $Global:NamedPipe_Server_Process (default: 'Process.exe') : This is the name of the application hosting the Named Pipe Server
+ - $Global:NamedPipe_Server_ResponseDelay (default 57ms) : This is how long the Pull command will wait after a Write to Read a response
 ## Additional functional global variables
- - $Global:readData = ''
- - $Global:readData_available = $false
- - $Global:writeData = ''
- - $Global:peekBytes = -1
+ - $Global:NamedPipe_Server_Data : ASCII single-line string data received from Server by Client (typical, optional)
+ - $Global:NamedPipe_Server_Data_available : Boolean flag indicating a successful read. Resets manually or automatically at beginning of Read (optional)
+ - $Global:NamedPipe_Client_Data : ASCII single-line string data from Client to Server (typical, optional)
+ - $Global:NamedPipe_Client_Debug : set to $true to enable debugging text in console
 
 ## Functions
- - PeekPipe: Writes current byte count from data read buffer into $Global:peekBytes. Returns a string for Write-Host status.
- - ReadPipe: Loads current read buffer data into $Global:readData, Trims it, and removes 'r and `n characters. Returns a string for Write-Host status.
- - WritePipe: Strips unprintable characters from $Global:writeData and writes to named pipe. Waits 57ms for response (PeekPipe > 0). Returns Write-Host status string.
- - PullPipe: Enhanced version of WritePipe. Performs a ReadPipe after waiting for a response from the named pipe server.
- - OpenPipe: Begins the NamedPipeClient stream for the pipe named in $Global:pipeName. Returns Write-Host status string.
- - WindowsIPCNamedPipeClient_loaded: Performs a simple Write-Host indicating that the library is loaded successfully. Used to validate proper dot-includes.
+ - NamedPipe_Client_PeekAtServer : Returns current byte count from data read buffer (-1 Error, 0 None, >0 Data Available)
+ - NamedPipe_Client_ReadFromServer : Returns ASCII single-line string data from Server. Loads current read buffer data, Trims it, and removes 'r and `n characters. 
+ - NamedPipe_Client_WriteToServer : Strips unprintable characters from Input Parameter -ClientDataString and writes to named pipe. 
+ - NamedPipe_Client_PullServerData : Enhanced version of WritePipe. Performs a ReadPipe after waiting for a response from the named pipe server.
+ - NamedPipe_Client_CloseServerConnection : Closes Pipe Connection, disposes of StreamReader and StreamWriter
+ - NamedPipe_Client_ConnectToServer : Begins the NamedPipeClient stream for the pipe named in $Global:NamedPipe_Server_Name. Returns boolean status of connection.
+ - NamedPipe_Client_Startup : Checks if the Process named in $Global:NamedPipe_Server_Process is running, opens Pipe.
+ - NamedPipe_Client_loaded : Performs a simple Write-Host indicating that the library is loaded successfully. Used to validate proper dot-includes.
 
 ## Future Planned Changes
- - Add a PipeClose function
- - Make the delay for WritePipe and PullPipe variable based on a global variable
+ - Verification for PipeClosed
 
 ## Known Bugs / Issues
- - OpenPipe doesn't have a try...catch statement behaviour
+ - Haven't rigorously tested reconnects
+
+## Versioning
+ - v1.1 - Changed names, made functions return values
 
 ## Example
  - The example files include a sample Named Pipe Echo-server that pairs with the Client program.
