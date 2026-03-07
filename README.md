@@ -6,6 +6,12 @@ At the moment, this is for a "Pull" type pipe, where the client asks the server 
 
 Includes a helper function Convert-ToAsciiSafe, which removes diacritics and non-printable ASCII.
 
+## Example Code
+1. To run the example, place a version of NamedPipe_Client_v#.#.ps1 into the same directory as the example scripts.
+2. Open up two separate PowerShell windows in the directory.
+3. Run the EchoServer in one window first, then the Client in the other window, second.
+4. Don't forget to use the format 'powershell -ExecutionPolicy Bypass -File ####.ps1' for each one if you have problems starting.
+
 ## Pipe Communications Variables
  - $Global:NamedPipe_Server_Name (default: 'PipeName') : This will be set to the name of the Pipe named in the Named Pipe Server
  - $Global:NamedPipe_Server_Process (default: 'Process.exe') : This is the name of the application hosting the Named Pipe Server
