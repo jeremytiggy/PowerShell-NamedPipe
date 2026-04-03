@@ -39,6 +39,7 @@ Includes a helper function Convert-ToAsciiSafe, which removes diacritics and non
  - Haven't rigorously tested reconnects
 
 ## Versioning
+ - v1.10 - Changed Startup Script to run more automatically
  - v1.1 - Changed names, made functions return values
 
 ## Example
